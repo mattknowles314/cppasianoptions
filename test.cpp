@@ -60,7 +60,7 @@ void getParentAndIndex(int node, int n, int pos, int* temp){
     }
 }
 
-int getPathRecurse(int pos, int n, int node, int* path){
+int getPathRecurse(int pos, int n, int node, int* path, int count){
     if(n==0){
         return 99;
     }
@@ -69,21 +69,20 @@ int getPathRecurse(int pos, int n, int node, int* path){
     getParentAndIndex(node, n, pos, q);
     int inPos = temp[1];
     int inNode = temp[2];
-    //This is broken, need to append to the array not just keep changing the last element
-    path[[sizeof(path)/sizeof(path[0])-1]] = temp[0];
-    return getPathRecurse(inPos,n-1,inNode,path);
+    path[count] = temp[0];
+    count+=1;
+    return getPathRecurse(inPos,n-1,inNode,path,count);
 }
 
 int getPath(int x, int n, int* path){
+    int count = 0;
     int temp[2] = {0};
     int *p = temp;
     getNodeAndPos(x,n,p);
     int node = temp[0];
-    cout << "NODE: " << node << endl; 
     int pos = temp[1];
-    cout << "POS: " << pos << endl;
 
-    return getPathRecurse(pos,n,node,path);    
+    return getPathRecurse(pos,n,node,path,count);    
 }
 
 void GenPathByNumber(int x, int N, int* Path){ 
@@ -107,10 +106,10 @@ int main(){
     int *p = temp;
     int testPath[4];
     int *q = testPath;
-    getPath(3,3,q);
+    getPath(5,3,q);
     cout << "GIVEN PATH" << endl;
-    for(int i=0; i<4;i++){
-        cout << testPath[0] << endl;
+    for(int i=0; i<3;i++){
+        cout << testPath[i] << endl;
     }
     return 0;
 }

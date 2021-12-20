@@ -21,6 +21,7 @@ void GenPathByNumber(int x, int N, int* Path){
         }
     }else{
         cout << "EMPTY" << endl;
+        
     }
 }
 
