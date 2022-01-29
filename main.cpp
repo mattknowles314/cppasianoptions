@@ -2,29 +2,49 @@
 #include "AsianOptions.h"
 #include "AvgPrices.h"
 #include "BinModel.h"
+#include <cmath>
 using namespace std;
 
 int main(){
     cout << "Testing" << endl;
-    double S0 = 50;
-    double U = 0.5;
-    double D = 0.3;
-    int N = 5;
-    int testPath[5];
-    int *p = testPath;
-    int x = 3;
-    GenPathByNumber(x,5,p);
-    double testPrice[6] = {0};
-    double *q = testPrice;
-    GenPricesByPath(S0,U,D,p,N,q);
-    cout << "PATH" << endl;
-    for(int j=0;j<N;j++){
-        cout<<testPath[j]<<endl;
+    double S0, U, D, R, K;
+    int N;
+    bool opType = 1; //Type of option, 1 for call, 0 for put. 
+    GetInputData(S0,U,D,R);
+    GetOptionInputData(N,K);
+    const int pN = pow(2,N)-1;
+    
+    //Need to create empty 2D array for the x values.
+    //(2^N)-1 arrays of length N.
+
+    const int rowCount = pow(2,N)-1;
+    const int colCount = N;
+
+    double paths[rowCount][colCount];
+    double (*r)[colCount] = paths;
+
+    //Currently breaks at N=5?!
+    for (int  x = 0; x <= rowCount; x++)
+    {
+        int tempL[colCount];
+        int *t = tempL;
+        GenPathByNumber(x,N,t);
+        for(int i = 0; i < N; i++){
+            r[x][i] = t[i];
+        }
     }
-    cout << "PRICES" << endl;
-    for(int j=0;j<N;j++){
-        cout<<testPrice[j]<<endl;
+    
+    //Test that the output paths are as expected
+    for(int k=0; k<=rowCount; k++){
+        for(int l=0;l<N;l++){
+            cout << r[k][l];
+        }
+        cout << "END" << endl;
     }
-    cout << "Test complete" << endl;
+
+    cout << "TEST COMPLETE" << endl;
+    
+    
+
     return 0;
 }

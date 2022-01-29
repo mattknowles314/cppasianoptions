@@ -9,6 +9,7 @@
 // and writes this path into the array Path of length N
 // generates an array of prices along the path and writes them into the array Prices of length N
 
+//Recursive function for calculating the factorial of an integer n, n!
 int factorial(int n){
     int result = 1;
     while (n>1) {
@@ -17,6 +18,7 @@ int factorial(int n){
     return result;
 }
 
+//Function for calculating the nCr value
 int choose(int n, int k){
     return (factorial(n)/(factorial(k)*factorial(n-k)));
 }
@@ -132,7 +134,7 @@ double GenProbabilityByPath(double U,double D, double R, int* Path, int N){
 //computing arithmetic average of the array of prices
 double ArAverage(double* Prices, int N){
     double sum = 0;
-    for(int j=1; j==N; j++){
+    for(int j=1; j<N; j++){
         sum+=Prices[j];
     }
     return sum/N;

@@ -4,112 +4,15 @@
 #include <cmath>
 using namespace std;
 
-int factorial(int n){
-    int result = 1;
-    while (n>1) {
-        result *= n--;
-    }
-    return result;
-}
-
-int choose(int n, int k){
-    return (factorial(n)/(factorial(k)*factorial(n-k)));
-}
-
-void getNodeAndPos(int x, int n, int* temp){
-    if(x == 0){
-        temp[0] = 0;
-        temp[1] = 0;
-    } else if(x==pow(2,n)-1){
-        temp[0] = n;
-        temp[1] = 0;
-    } else{
-        int count = x;
-        for(int j = 0; j<n; j++){
-            int currentNode = choose(n,j);
-            int inCount = currentNode;
-            while(inCount > 0){
-                if(count == 0){
-                    temp[0] = j;
-                    temp[1] = currentNode-inCount;
-                }
-                inCount-=1;
-                count-=1;
-            }
-        }
-    }
-}
-
-void getParentAndIndex(int node, int n, int pos, int* temp){
-    if(node == 0){
-        int temp[3] = {0};
-    }else if(node == n){
-        temp[0] = 1;
-        temp[1] = 0;
-        temp[2] = n-1; 
-    }
-    int p1 = choose(n-1,node-1);
-    if(p1 > pos){
-        temp[0] = 1;
-        temp[1] = pos;
-        temp[2] = node-1;        
-    } else{
-        temp[0] = 0;
-        temp[1] = pos-p1;
-        temp[2] = node;
-    }
-}
-
-int getPathRecurse(int pos, int n, int node, int* path, int count){
-    if(n==0){
-        return 99;
-    }
-    int temp[3];
-    int *q = temp;
-    getParentAndIndex(node, n, pos, q);
-    int inPos = temp[1];
-    int inNode = temp[2];
-    path[count] = temp[0];
-    count+=1;
-    return getPathRecurse(inPos,n-1,inNode,path,count);
-}
-
-int getPath(int x, int n, int* path){
-    int count = 0;
-    int temp[2] = {0};
-    int *p = temp;
-    getNodeAndPos(x,n,p);
-    int node = temp[0];
-    int pos = temp[1];
-
-    return getPathRecurse(pos,n,node,path,count);    
-}
-
-void GenPathByNumber(int x, int N, int* Path){ 
-    if(x==0){
-        for(int j=0;j<N;j++){
-            Path[j] = 0;
-        }
-    }else if(x==pow(2,N)-1){
-        for(int j=0;j<N;j++){
-            Path[j] = 1;
-        }
-    }else{
-        cout << "EMPTY" << endl;
-        
-    }
-}
-
 int main(){
-    cout << "Calculating Path" << endl;
-    int temp[2] = {0,1};
-    int *p = temp;
-    int testPath[4];
-    int *q = testPath;
-    getPath(5,3,q);
-    cout << "GIVEN PATH" << endl;
-    for(int i=0; i<3;i++){
-        cout << testPath[i] << endl;
+    int f[3] = {1,2,3};
+    int testList[2][3] = {{3,4,5},{6,7,8}};
+    int (*p)[3] = testList;
+    for(int i=0; i<3; i++){
+        p[1][i]=f[i];
+    }
+    for(int i=0; i<3; i++){
+        cout << testList[1][i] << endl;
     }
     return 0;
 }
