@@ -6,45 +6,40 @@
 using namespace std;
 
 int main(){
-    cout << "Testing" << endl;
     double S0, U, D, R, K;
     int N;
     bool opType = 1; //Type of option, 1 for call, 0 for put. 
     GetInputData(S0,U,D,R);
     GetOptionInputData(N,K);
-    const int pN = pow(2,N)-1;
-    
-    //Need to create empty 2D array for the x values.
-    //(2^N)-1 arrays of length N.
 
-    const int rowCount = pow(2,N)-1;
-    const int colCount = N;
+    //Function pointers
 
-    double paths[rowCount][colCount];
-    double (*r)[colCount] = paths;
+    //Call payoff
+    double (*ac)(double z, double K);
+    ac = &AsianCallPayoff;
 
-    //Currently breaks at N=5?!
-    for (int  x = 0; x <= rowCount; x++)
-    {
-        int tempL[colCount];
-        int *t = tempL;
-        GenPathByNumber(x,N,t);
-        for(int i = 0; i < N; i++){
-            r[x][i] = t[i];
-        }
-    }
-    
-    //Test that the output paths are as expected
-    for(int k=0; k<=rowCount; k++){
-        for(int l=0;l<N;l++){
-            cout << r[k][l];
-        }
-        cout << "END" << endl;
-    }
+    //Put payoff
+    double (*ap)(double z, double K);
+    ap = &AsianPutPayoff;
 
-    cout << "TEST COMPLETE" << endl;
-    
-    
+    //Arithmetic averaging 
+    double (*arith)(double* Prices, int N);
+    arith = &ArAverage;
+
+    double (*geom)(double* Prices, int N);
+    geom = &GeAverage;
+
+    //Price the option
+    double callArith = Price(S0,U,D,R,N,K,ac,arith);
+    double callGeom = Price(S0,U,D,R,N,K,ac,geom);
+    double putArith = Price(S0,U,D,R,N,K,ap,arith);
+    double putGeom = Price(S0,U,D,R,N,K,ap,geom);
+
+    cout << "---PRICES FOR THE ENTERED DATA---" << endl;
+    cout << "Call Option with Arithmetic Averaging: " << callArith << endl;
+    cout << "Call Option with Geometric Averaging: " << callGeom << endl;
+    cout << "Put Option with Arithmetic Averaging: " <<putArith << endl;
+    cout << "Put Option with Geometric Averaging: " <<putGeom << endl;
 
     return 0;
 }

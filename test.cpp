@@ -4,15 +4,22 @@
 #include <cmath>
 using namespace std;
 
+int numbers[6] = {1,2,3,4,5,6};
+int *p = numbers;
+int sumNums(int x, int y){
+    return x+y;
+}
+
+int sumAList(int (*sumNums)(int x, int y), int *listA){
+    int sum = 0;
+    for (int i = 0; i < 6; i+=2)
+    {
+        sum+=sumNums(listA[i],listA[i+1]);
+    }
+    return sum;
+}
+
 int main(){
-    int f[3] = {1,2,3};
-    int testList[2][3] = {{3,4,5},{6,7,8}};
-    int (*p)[3] = testList;
-    for(int i=0; i<3; i++){
-        p[1][i]=f[i];
-    }
-    for(int i=0; i<3; i++){
-        cout << testList[1][i] << endl;
-    }
+    cout << sumAList(&sumNums,numbers);
     return 0;
 }
