@@ -1,25 +1,44 @@
+//TESTING
+
 #include <iostream>
-#include <stdlib.h>
-#include <cstdlib>
 #include <cmath>
+#include "AsianOptions.h"
+#include "AvgPrices.h"
+#include "BinModel.h"
+
 using namespace std;
 
-int numbers[6] = {1,2,3,4,5,6};
-int *p = numbers;
-int sumNums(int x, int y){
-    return x+y;
-}
-
-int sumAList(int (*sumNums)(int x, int y), int *listA){
-    int sum = 0;
-    for (int i = 0; i < 6; i+=2)
-    {
-        sum+=sumNums(listA[i],listA[i+1]);
-    }
-    return sum;
-}
-
 int main(){
-    cout << sumAList(&sumNums,numbers);
-    return 0;
+
+	//Keeping the input data the same as to keep everything consistent
+	double S0=60;
+	double U=0.7;
+	double D=-0.1;
+	double R=0.1;
+	double K=55;
+	int N=3;
+	
+	double (*ac)(double z, double K);
+	ac = &AsianCallPayoff;
+
+	double (*ap)(double z, double K);
+	ap = &AsianPutPayoff;
+
+	double (*arith)(double* Prices, int N);
+	arith = &ArAverage;
+	
+	double (*geom)(double* Prices, int N);
+	geom = &GeAverage;
+
+	//This is returning 0 when it definately should be
+	double callArith = Price(S0,U,D,R,N,K,ac,arith);
+	double putArith = Price(S0,U,D,R,N,K,ap,arith);
+
+	cout << callArith << endl;
+	cout << putArith << endl;
+
+	return 0;
+
+
+
 }

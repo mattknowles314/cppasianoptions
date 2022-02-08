@@ -83,7 +83,7 @@ int getPathRecurse(int pos, int n, int node, int* path, int count){
 
 int getPath(int x, int n, int* path){
     int count = 0;
-    int temp[2] = {0};
+    int temp[2] = {0,0};
     int *p = temp;
     getNodeAndPos(x,n,p);
     int node = temp[0];
@@ -98,16 +98,16 @@ void GenPathByNumber(int x, int N, int* Path){
         for(int j=0;j<N;j++){
             Path[j] = 0;
         }
-    }else if(x==pow(2,N)-1){
+	}else if(x==pow(2,N)-1){
         for(int j=0;j<N;j++){
             Path[j] = 1;
         }
-    }else{
-        int n = N;
-        getPath(x,n,Path); 
+	}else{
+        getPath(x,N,Path); 
     }
 }
 
+//Generate the stock prices along a given path
 void GenPricesByPath(double S0, double U,double D, int* Path, int N, double* Prices){
     Prices[0] = S0;
     for(int j=0;j<N;j++){
@@ -119,7 +119,7 @@ void GenPricesByPath(double S0, double U,double D, int* Path, int N, double* Pri
     }
 }
 
-// generates a probability of the path
+//generates a probability of the path
 double GenProbabilityByPath(double U,double D, double R, int* Path, int N){
     int i = 0;
     for(int j=0;j<N;j++){

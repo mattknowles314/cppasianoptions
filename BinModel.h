@@ -31,7 +31,7 @@ int GetInputData(double& S0, double& U, double& D, double& R){
     } else{
         cout << "MESSAGE: STOCK DATA IS INVALID, PLEASE TRY AGAIN\n" << endl;
         GetInputData(S0,U,D,R);
-        return 0;
+		return 0;
     }
     cout << endl; //Newline just for aesthetics in console output
 }

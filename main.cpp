@@ -8,7 +8,6 @@ using namespace std;
 int main(){
     double S0, U, D, R, K;
     int N;
-    bool opType = 1; //Type of option, 1 for call, 0 for put. 
     GetInputData(S0,U,D,R);
     GetOptionInputData(N,K);
 
@@ -26,6 +25,7 @@ int main(){
     double (*arith)(double* Prices, int N);
     arith = &ArAverage;
 
+	//Geometric averaging
     double (*geom)(double* Prices, int N);
     geom = &GeAverage;
 
@@ -40,6 +40,8 @@ int main(){
     cout << "Call Option with Geometric Averaging: " << callGeom << endl;
     cout << "Put Option with Arithmetic Averaging: " <<putArith << endl;
     cout << "Put Option with Geometric Averaging: " <<putGeom << endl;
+
+	cout << "---PROGRAM TERMINATED---" << endl;
 
     return 0;
 }
