@@ -14,6 +14,21 @@ int GetOptionInputData(int& N, double& K){
     return 0;
 }
 
+bool probValidTest(double* probs, int N){
+    double probSum = 0;
+    for(int i=1;i<N;i++){
+        probSum += probs[i];
+    }
+    cout << "PROBSUM: " << probSum << endl;
+    if(probSum==1){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+
 // pricing Asian option by iterating over the paths x
 // that change from 0 to (2^N)-1, for each x
 // find the corresponding payoff and the probability using
@@ -48,9 +63,20 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
 
     //Create empty array for containg the probabilities of each path
     double pathProbs[rows];
+    double *a = pathProbs;
+    
     for(int i=0;i<=rows;i++){
         pathProbs[i] = GenProbabilityByPath(U,D,R,r[i],N);
     }
+
+    //TEST: LAW OF TOTAL PROBABILITY
+    if(!probValidTest(a,N)){
+        cout << "MESSAGE: PROBABILITY SUM TEST FAILED. PROGRAM TERMINATING" << endl;
+        exit(EXIT_FAILURE);
+    }else{
+        cout << "MESSAGE: PROBABILITY SUM TEST PASSED. CONTINUTING" << endl;
+    }
+    
 
     //Create an empty 2^N x N matrix to stor prices along the paths
     double prices[rows][cols];
