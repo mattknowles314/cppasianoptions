@@ -25,7 +25,7 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
 
     //Create a 2^N x N matrix for storing the paths
     int paths[rows][cols];
-    int (*r)[cols] = paths;
+    int (*r)[cols] = &(paths[0]);
 
     //Generate paths by index
     for(int x=0; x<=rows;x++){
@@ -54,7 +54,7 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
 
     //Create an empty 2^N x N matrix to stor prices along the paths
     double prices[rows][cols];
-    double (*s)[cols] = prices;
+    double (*s)[cols] = &(prices[0]);
     
     for(int x=0; x<=rows; x++){
         int *t = paths[x];
