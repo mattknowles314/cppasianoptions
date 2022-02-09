@@ -5,7 +5,7 @@ using namespace std;
 
 //computing risk-neutral probability
 double RiskNeutProb(double U, double D, double R){
-    return (R-D)/(U-D);
+    return (U-R)/(U-D);
 }
 
 //Checks the validity of the stock important parameters
