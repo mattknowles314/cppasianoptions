@@ -12,9 +12,9 @@ int main(){
 
 	//Keeping the input data the same as to keep everything consistent
 	double S0=60;
-	double U=0.7;
-	double D=-0.1;
-	double R=0.1;
+	double U=5;
+	double D=1.5;
+	double R=3;
 	double K=55;
 	int N=3;
 	
