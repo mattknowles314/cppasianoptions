@@ -27,9 +27,11 @@ void getNodeAndPos(int x, int n, int* temp){
     if(x == 0){
         temp[0] = 0;
         temp[1] = 0;
+		return;
     } else if(x==pow(2,n)-1){
         temp[0] = n;
         temp[1] = 0;
+		return;
     } else{
         int count = x;
         for(int j = 0; j<n; j++){
@@ -38,7 +40,8 @@ void getNodeAndPos(int x, int n, int* temp){
             while(inCount > 0){
                 if(count == 0){
                     temp[0] = j;
-                    temp[1] = currentNode-inCount;
+                    temp[1] = (currentNode-inCount);
+					return;
                 }
                 inCount-=1;
                 count-=1;
@@ -48,42 +51,55 @@ void getNodeAndPos(int x, int n, int* temp){
 }
 
 void getParentAndIndex(int node, int n, int pos, int* temp){
-    if(node == 0){
-        int temp[3] = {0};
+    /*temp[0] is the value that gets appended to the path.
+		It is 0 if the parent node was 'below' the current node,
+		or 1 if the parent was 'above'
+	  temp[1] is the depth of the path in the node. 
+
+	*/
+	if(node == 0){
+        temp[0] = 0;
+		temp[1] = 0;
+		temp[2] = 0;
+		return;
     }else if(node == n){
         temp[0] = 1;
         temp[1] = 0;
-        temp[2] = n-1; 
-    }
-    int p1 = choose(n-1,node-1);
-    if(p1 > pos){
-        temp[0] = 1;
-        temp[1] = pos;
-        temp[2] = node-1;        
-    } else{
-        temp[0] = 0;
-        temp[1] = pos-p1;
-        temp[2] = node;
-    }
+        temp[2] = n-1;
+		return;
+    }else{
+    	int p1 = choose(n-1,node-1);
+    	if(p1 > pos){
+        	temp[0] = 1;
+        	temp[1] = pos;
+        	temp[2] = node-1;
+			return;        
+    	} else{
+        	temp[0] = 0;
+        	temp[1] = pos-p1;
+        	temp[2] = node;
+			return;
+    	}
+	}
 }
 
 int getPathRecurse(int pos, int n, int node, int* path, int count){
     if(n==0){
         return 99;
     }
-    int temp[3];
-    int *q = temp;
+    int tempVals[3];
+    int *q = tempVals;
     getParentAndIndex(node, n, pos, q);
-    int inPos = temp[1];
-    int inNode = temp[2];
-    path[count] = temp[0];
+    int inPos = tempVals[1];
+    int inNode = tempVals[2];
+    path[count] = tempVals[0];
     count+=1;
     return getPathRecurse(inPos,n-1,inNode,path,count);
 }
 
 int getPath(int x, int n, int* path){
     int count = 0;
-    int temp[2] = {0,0};
+    int temp[2];
     int *p = temp;
     getNodeAndPos(x,n,p);
     int node = temp[0];
@@ -97,13 +113,16 @@ void GenPathByNumber(int x, int N, int* Path){
     if(x==0){
         for(int j=0;j<N;j++){
             Path[j] = 0;
+			return;
         }
 	}else if(x==pow(2,N)-1){
         for(int j=0;j<N;j++){
             Path[j] = 1;
+			return;
         }
 	}else{
-        getPath(x,N,Path); 
+        getPath(x,N,Path);
+		return;
     }
 }
 
