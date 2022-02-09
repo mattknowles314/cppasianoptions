@@ -35,6 +35,7 @@ bool probValidTest(double* probs, int N){
 // the functions from AvgPrices
 double Price(double S0, double U, double D, double R, int N, double K, double (*Payoff)(double z, double K),double (*AvgType)(double* Prices, int N)){
     double disc = pow((1+R),(-1*N)); //Define this discounting factor now to use it later
+    
     const int rows = pow(2,N)-1; //There are 2^N paths, but we start at 0 for indexing so minus 1 here to stay consistent
     const int cols = N; //We define this as a constant in order to be able to construct arrays
 
@@ -71,8 +72,8 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
 
     //TEST: LAW OF TOTAL PROBABILITY
     if(!probValidTest(a,N)){
-        cout << "MESSAGE: PROBABILITY SUM TEST FAILED. PROGRAM TERMINATING" << endl;
-        exit(EXIT_FAILURE);
+        //Throw an error if probabilities dont sum to 1
+        throw  "MESSAGE: PROBABILITY SUM TEST FAILED. PROGRAM TERMINATING";
     }else{
         cout << "MESSAGE: PROBABILITY SUM TEST PASSED. CONTINUTING" << endl;
     }
