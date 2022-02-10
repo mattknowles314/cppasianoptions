@@ -14,20 +14,6 @@ int GetOptionInputData(int& N, double& K){
     return 0;
 }
 
-bool probValidTest(double* probs, int N){
-    double probSum = 0;
-    for(int i=1;i<N;i++){
-        probSum += probs[i];
-    }
-    cout << "PROBSUM: " << probSum << endl;
-    if(probSum==1){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-
 
 // pricing Asian option by iterating over the paths x
 // that change from 0 to (2^N)-1, for each x
@@ -53,33 +39,16 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
         }
     }
 
-	//TEST: OUTPUT PATHS
-	for(int x=0; x<=rows;x++){
-		cout << "x = " << x << "\t";
-		for(int i=0; i<N;i++){
-			cout<<r[x][i];
-		}
-		cout << "\n" << endl;
-	}
-
     //Create empty array for containg the probabilities of each path
     double pathProbs[rows];
     double *a = pathProbs;
     
     for(int i=0;i<=rows;i++){
         pathProbs[i] = GenProbabilityByPath(U,D,R,r[i],N);
+		cout << pathProbs[i] << endl;
     }
-
-    //TEST: LAW OF TOTAL PROBABILITY
-    if(!probValidTest(a,N)){
-        //Throw an error if probabilities dont sum to 1
-        throw  "MESSAGE: PROBABILITY SUM TEST FAILED. PROGRAM TERMINATING";
-    }else{
-        cout << "MESSAGE: PROBABILITY SUM TEST PASSED. CONTINUTING" << endl;
-    }
-    
-
-    //Create an empty 2^N x N matrix to stor prices along the paths
+	
+    //Create an empty 2^N x N matrix to store prices along the paths
     double prices[rows][cols];
     double (*s)[cols] = prices;
     
@@ -87,8 +56,12 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
         int *t = paths[x];
         double temp[cols];
         double *u = temp;
-        GenProbabilityByPath(U,D,R,t,N);
+        GenPricesByPath(S0,U,D,r[x],N,u);
+		for(int i=0;i<N;i++){
+			s[x][i] = u[i];
+		}
     }
+
 
     //Create empty array of payoffs
     double payoffs[rows];
@@ -104,23 +77,23 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
     for(int x=0; x<=rows; x++){
         expPayoff += (pathProbs[x]*payoffs[x]);
     }
-    
+   	cout << "E(Payoff) = " << expPayoff << endl;
     //Return the price of the option by discounting the epected payoff
     return disc*expPayoff;
 }
 
 //computing asian call payoff
 double AsianCallPayoff(double avgPrice, double K){
-    double null = 0;
+    double nullV = 0;
     double t = avgPrice-K;
-    return max(t, null);
+	return max(t, nullV);
 }
 
 //computing asian put payoff
 double AsianPutPayoff(double avgPrice, double K){
-    double null = 0;
+    double nullV = 0;
     double t = K-avgPrice;
-    return max(t,null);
+    return max(t,nullV);
 }
 
 #endif

@@ -11,9 +11,9 @@ using namespace std;
 int main(){
 
 	//Keeping the input data the same as to keep everything consistent
-	double S0=60;
+	double S0=50;
 	double U=5;
-	double D=1.5;
+	double D=1;
 	double R=3;
 	double K=55;
 	int N=3;
@@ -34,11 +34,8 @@ int main(){
 	double callArith = Price(S0,U,D,R,N,K,ac,arith);
 	double putArith = Price(S0,U,D,R,N,K,ap,arith);
 
-	cout << callArith << endl;
-	cout << putArith << endl;
+	cout << "CALL: " << callArith << endl;
+	cout << "PUT: " << putArith << endl;
 
 	return 0;
-
-
-
 }

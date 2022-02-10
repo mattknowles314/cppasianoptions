@@ -122,7 +122,6 @@ void GenPathByNumber(int x, int N, int* Path){
         }
 	}else{
         getPath(x,N,Path);
-		return;
     }
 }
 
@@ -153,7 +152,7 @@ double GenProbabilityByPath(double U,double D, double R, int* Path, int N){
 //computing arithmetic average of the array of prices
 double ArAverage(double* Prices, int N){
     double sum = 0;
-    for(int j=1; j<N; j++){
+    for(int j=0; j<N; j++){
         sum+=Prices[j];
     }
     return sum/N;
@@ -161,11 +160,11 @@ double ArAverage(double* Prices, int N){
 
 //computing geometric average of the array of prices
 double GeAverage(double* Prices, int N){
-    double avg = 1;
-    for(int j=1; j==N; j++){
-        avg*=Prices[j];
+    double prod = 1;
+    for(int j=0; j<N; j++){
+        prod*=Prices[j];
     }
-    return pow(avg,1.0/N);
+    return pow(prod,1.0/N);
 }
 
 #endif
