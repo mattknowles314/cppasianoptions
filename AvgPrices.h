@@ -128,25 +128,31 @@ void GenPathByNumber(int x, int N, int* Path){
 //Generate the stock prices along a given path
 void GenPricesByPath(double S0, double U,double D, int* Path, int N, double* Prices){
     Prices[0] = S0;
-    for(int j=0;j<N;j++){
+    for(int j=0;j<N-1;j++){
         if(Path[j]==0){
             Prices[j+1] = Prices[j]*(1+U);
-        } else{
+        } else if(Path[j]==1){
             Prices[j+1] = Prices[j]*(1+D);
         }
     }
+	return;
 }
 
-//generates a probability of the path
+/*
+Generates probability of selecting a path based on how many times it goes up.
+Note that in the future, we could improve performance of this function by calculating q outside
+and passing it to the function, rather than re-calculating it each time.
+*/
 double GenProbabilityByPath(double U,double D, double R, int* Path, int N){
-    int i = 0;
+	int is = 0; //Number of times we go up
     for(int j=0;j<N;j++){
-        if(Path[j]==1){
-            i+=1;
+		if(Path[j]==0){
+            is+=1;
         }
     }
     double q = RiskNeutProb(U,D,R);
-    return pow(q,i)*pow(1-q,N-i);
+    double prob = pow(q,is)*pow(1-q,N-is);
+	return prob;
 }
 
 //computing arithmetic average of the array of prices
