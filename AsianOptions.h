@@ -41,7 +41,7 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
 
     //Create empty array for containg the probabilities of each path
     double pathProbs[rows] = {0};
-    double *a = pathProbs;
+    double *a = &(pathProbs[0]);
     for(int i=0;i<=rows;i++){
 		int tempPath[cols] = {0};
 		int *b = tempPath;
@@ -50,9 +50,9 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
 			cout << r[i][j];
 			b[j] = r[i][j];
 		} 
-		double prob = GenProbabilityByPath(U,D,R,b,N);
-		cout << " PROB = " << prob << endl;
-		a[i] = prob;
+		double pathProb = GenProbabilityByPath(U,D,R,b,N);
+		cout << " PROB = " << pathProb << endl;
+		a[i] = pathProb;
     }
 	
 	cout << "BREAK" << endl;
@@ -62,10 +62,9 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
     double (*s)[cols] = prices;
     
     for(int x=0; x<=rows; x++){
-        int *t = r[x];
         double tempPr[cols];
         double *u = tempPr;
-        GenPricesByPath(S0,U,D,t,N,u);
+        GenPricesByPath(S0,U,D,r[x],N,u);
 		for(int i=0;i<N;i++){
 			s[x][i] = u[i];
 		}
@@ -82,22 +81,12 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
 		c[x] = (*Payoff)(avgPrice,K);
     }
 
-	cout << "PATH PROBS" << endl;
-	for(int x=0; x<=rows; x++){
-		cout << a[x] << endl;
-	}
-
-	cout << "BREAK" << endl;
-
 	//Checking what the payoffs look like
 	
 	cout << "PAYOFFS" << endl;
-	for(int x=0; x<=rows; x++){
-		cout << a[x] << " ; " << payoffs[x] << endl;
+	for(int y=0; y<=rows; y++){
+		cout << a[y] << " ; " << payoffs[y] << endl;
 	}
-	
-	
-	//Payoffs look normal
 
     //Calculate expected payoff
     double expPayoff = 0;
