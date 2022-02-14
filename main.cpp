@@ -42,6 +42,6 @@ int main(){
     cout << "Put Option with Geometric Averaging: " <<putGeom << endl;
 
 	cout << "---PROGRAM TERMINATED---" << endl;
-
+	system("pause");
     return 0;
 }
