@@ -32,22 +32,22 @@ int main(){
 	double (*geom)(double* Prices, int N);
 	geom = &GeAverage;
 
-	double callArithPrices[10];
+	double putArithPrices[10];
 	
 	S0s[0] = s0;
 	
 	
 	int i = 0;
 	while(i<10){
-		callArithPrices[i] = Price(S0s[i],U,D,R,N,K,ap,geom);
+		putArithPrices[i] = Price(S0s[i],U,D,R,N,K,ap,arith);
 		S0s[i+1] = S0s[i]+10;
 		i++;
 	}	
 	
 	for(int j=0;j<10;j++){
-		cout << S0s[j] << "," << callArithPrices[j] << endl;
+		cout << S0s[j] << "," << putArithPrices[j] << endl;
 	}
 	
-
+	system("pause");
 	return 0;
 }

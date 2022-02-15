@@ -43,5 +43,4 @@ int main(){
 
 	cout << "---PROGRAM TERMINATED---" << endl;
 	system("pause");
-    return 0;
 }
