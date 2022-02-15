@@ -55,17 +55,12 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
     for(int i=0;i<=rows;i++){
 		int tempPath[cols] = {0};
 		int *b = tempPath;
-		cout << "PATH: " << endl;
 		for(int j=0;j<N;j++){
-			cout << r[i][j];
 			b[j] = r[i][j];
 		} 
 		double pathProb = GenProbabilityByPath(U,D,R,b,N);
-		cout << " PROB = " << pathProb << endl;
 		a[i] = pathProb;
     }
-	
-	cout << "BREAK" << endl;
 	
     for(int x=0; x<=rows; x++){
         double tempPr[cols];
@@ -82,20 +77,11 @@ double Price(double S0, double U, double D, double R, int N, double K, double (*
 		c[x] = (*Payoff)(avgPrice,K);
     }
 
-	//Checking what the payoffs look like
-	
-	cout << "PAYOFFS" << endl;
-	for(int y=0; y<=rows; y++){
-		cout << a[y] << " ; " << payoffs[y] << endl;
-	}
-
     //Calculate expected payoff
     double expPayoff = 0;
     for(int x=0; x<=rows; x++){
         expPayoff += (pathProbs[x]*payoffs[x]);
 	}
-
-	cout << "E(PAYOFF) = " << expPayoff;
 
     //Return the price of the option by discounting the epected payoff
     return disc*expPayoff;
